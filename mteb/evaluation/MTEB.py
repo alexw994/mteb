@@ -172,6 +172,7 @@ class MTEB:
                 continue
             else:
                 console.print(f"[bold]{task_type}[/]")
+                for ( 
                     task
                 ) in current_type_tasks:  # will be sorted as input to this function
                     prefix = "    - "
