@@ -172,7 +172,6 @@ class MTEB:
                 continue
             else:
                 console.print(f"[bold]{task_type}[/]")
-                for (
                     task
                 ) in current_type_tasks:  # will be sorted as input to this function
                     prefix = "    - "
@@ -461,8 +460,11 @@ class MTEB:
         # To evaluate missing splits, we keep track of the task name and the corresponding splits.
         self.last_evaluated_splits = {}
 
+        print('\n==========>[start loop]')
+
         while len(self.tasks) > 0:
             task = self.tasks[0]
+            print('\n==========>[task.metadata.name]')
             logger.info(
                 f"\n\n********************** Evaluating {task.metadata.name} **********************"
             )
@@ -488,6 +490,7 @@ class MTEB:
                     save_path = output_path / f"{task.metadata.name}.json"
                     new_results.to_disk(save_path)
                 del self.tasks[0]
+                print('\n==========>[AbsTaskAggregate case] [del self.tasks[0].metadata.name]')
                 continue
 
             if "bm25s" in meta.name and task.metadata.type != "Retrieval":
@@ -495,6 +498,7 @@ class MTEB:
                     f"bm25s only supports Retrieval tasks, but the task type is {task.metadata.type}. Skipping task."
                 )
                 del self.tasks[0]  # empty memory
+                print('\n==========>["bm25s" in meta.name] [del self.tasks[0].metadata.name]')
                 continue
 
             # NOTE: skip evaluation if the model does not support all of the task's modalities.
@@ -507,6 +511,7 @@ class MTEB:
                     f"{meta.name} only supports {meta.modalities}, but the task modalities are {sorted_task_modalities}."
                 )
                 del self.tasks[0]  # empty memory
+                print('\n==========>[skip evaluation if the model does not support all of the task's modalities.] [del self.tasks[0].metadata.name]')
                 continue
 
             task_eval_splits = (
@@ -558,6 +563,7 @@ class MTEB:
                         )
                         evaluation_results.append(existing_results)
                         del self.tasks[0]  # empty memory
+                        print('\n==========>[no overwrite results] [del self.tasks[0].metadata.name]')
                         continue
 
             # If no splits need to be run and results exist, skip
@@ -570,6 +576,7 @@ class MTEB:
                     )
                 self.last_evaluated_splits[task.metadata.name] = []
                 del self.tasks[0]
+                print('\n==========>[no splits need to be run and results exist, skip] [del self.tasks[0].metadata.name]')
                 continue
 
             try:
