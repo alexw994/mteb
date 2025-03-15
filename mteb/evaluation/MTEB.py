@@ -511,8 +511,11 @@ class MTEB:
                 logger.info(
                     f"{meta.name} only supports {meta.modalities}, but the task modalities are {sorted_task_modalities}."
                 )
+                print(
+                    f"{meta.name} only supports {meta.modalities}, but the task modalities are {sorted_task_modalities}."
+                )
                 del self.tasks[0]  # empty memory
-                print('\n==========>[skip evaluation if the model does not support all of the task's modalities.] [del self.tasks[0].metadata.name]')
+                print('\n==========>[skip evaluation if the model does not support all of the modalities of task.] [del self.tasks[0].metadata.name]')
                 continue
 
             task_eval_splits = (
